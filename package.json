@@ -1,0 +1,23 @@
+{
+  "name": "heed-india",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "devStart": "nodemon src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.11",
+    "morgan": "^1.10.0",
+    "razorpay": "^2.0.6",
+    "shortid": "^2.2.16"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}

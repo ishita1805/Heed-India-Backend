@@ -1,7 +1,8 @@
 const { json } = require('express')
 const Razorpay = require('razorpay')
 const shortid = require('shortid')
-
+const mongoose = require("mongoose");
+const Payment = require('../models/payment')
 
 const instance = new Razorpay({
     key_id: 'rzp_test_PsxGKItWtb7jwL',
@@ -18,17 +19,39 @@ exports.add_payment = async (req, res, next) => {
         currency : 'INR',
         receipt : shortid.generate()
        }
-       const resp = await instance.orders.create(options);
-       console.log(resp)
-        res.json({
-            message:'request successful',
-            id:resp.id,
-            currency:resp.currency,
-            amount: resp.amount
-        });
+        instance.orders.create(options)
+        .then((resp)=>{
+            
+            const pay = new Payment({
+                _id:mongoose.Types.ObjectId(),
+                offerId:resp.id,
+                amount: resp.amount/100,
+                currency: resp.currency,
+                receipt: resp.receipt,
+                status: resp.status,
+                createdAt: resp.created_at
+            })
+
+            pay.save()
+            .then((response)=>{
+                res.json({
+                    message:'request successful',
+                    data: resp
+                });
+            })
+            .catch(()=>{
+             res.json({
+                 error:"mongoDB error"
+                });
+            })
+
+        })
+        
     }
     catch(e){
         res.json({message:'something went wrong'});
     }
    
 }
+
+

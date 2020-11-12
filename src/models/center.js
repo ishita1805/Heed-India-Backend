@@ -13,11 +13,11 @@ const center = new mongoose.Schema({
         type:String,
         required:true,
     },
-    inititives:{
+    initiatives:{
         type:String,
         required:true,
     },
 
 });
 
-module.export = mongoose.model("Center",center);
+module.exports = mongoose.model("Center",center);

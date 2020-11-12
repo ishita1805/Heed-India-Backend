@@ -1,18 +1,18 @@
 const express = require('express')
 const router = express.Router()
-const Center = require('./../models/centre.js')
+const Center = require('../models/center')
 
 router.route('/create').post((req,res)=>{
     const name = req.body.name;
     const about = req.body.about;
     const work = req.body.work;
-    const initiative = req.body.initiative;
+    const initiatives = req.body.initiatives;
 
     const newcenter = new Center({
         name,
         about,
         work,
-        initiative
+        initiatives
     });
 
     newcenter.save()
@@ -25,3 +25,5 @@ router.route('/find/:name').get((req,res)=>{
     .then((center) => res.json(center))
     .catch((err) => res.json(err));
 });
+
+module.exports = router

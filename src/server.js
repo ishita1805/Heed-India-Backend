@@ -28,12 +28,13 @@ app.use((req, res, next) => {
 
 // Routes
 const paymentRoute = require('./routes/payments')
-const center = require('./routes/centers')
+const centerRoute = require('./routes/centers')
 
 
 //middleware for routes
+app.use('/center', centerRoute)
 app.use('/payments', paymentRoute)
-app.use('/center', center)
+
 
 
 

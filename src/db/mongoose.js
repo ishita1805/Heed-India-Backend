@@ -4,4 +4,9 @@ const mongoose = require('mongoose')
     useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify:false
-})
+});
+
+const connection = mongoose.connection;
+connection.once("open", () => {
+    console.log("MongoDB database connection established successfully");
+});

@@ -35,8 +35,8 @@ exports.add_payment = async (req, res, next) => {
             pay.save()
             .then((response)=>{
                 res.json({
-                    message:'request successful',
-                    data: resp
+                    message:'mongo successful',
+                    data: response
                 });
             })
             .catch(()=>{
@@ -53,5 +53,7 @@ exports.add_payment = async (req, res, next) => {
     }
    
 }
+
+
 
 

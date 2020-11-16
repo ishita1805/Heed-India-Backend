@@ -39,12 +39,7 @@ app.get("/",(req, res)=>{
   })
 })
 
-app.post("/verification",(req, res)=>{
-  const SECRET = "thisistheheedindiasecret123"
-  res.status(200).json({
-    status:"ok"
-  })
-})
+
 
 app.listen(port,() => {
     console.log("Listening on port "+ port);

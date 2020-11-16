@@ -56,7 +56,7 @@ exports.add_payment = async (req, res, next) => {
 
 exports.verification = (req, res, next)=>{
     const SECRET = "thisistheheedindiasecret123"
-    console.log(req.body)
+    console.log("this line is reached")
     res.status(200).json({
       status:"ok"
     })

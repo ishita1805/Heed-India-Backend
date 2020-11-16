@@ -33,8 +33,8 @@ const paymentRoute = require('./routes/payments')
 //middleware for routes
 app.use('/payments', paymentRoute)
 
-app.get("/",(req, res, next)=>{
-  res.json({
+app.get("/",(req, res)=>{
+  res.status(200).json({
     message:"welcome to heed india"
   })
 })

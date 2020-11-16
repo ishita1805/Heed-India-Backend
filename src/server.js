@@ -33,7 +33,11 @@ const paymentRoute = require('./routes/payments')
 //middleware for routes
 app.use('/payments', paymentRoute)
 
-
+app.get("/",(req, res, next)=>{
+  res.json({
+    message:"welcome to heed india"
+  })
+})
 
 app.listen(port,() => {
     console.log("Listening on port "+ port);

@@ -4,7 +4,7 @@ const Letter = require('../models/newsletter')
 
 exports.newsLetter = (req,res)=>{
 
-    const email = req.body.email;
+    const email = req.body.newemail;
 
 
     const newletter = new Letter({

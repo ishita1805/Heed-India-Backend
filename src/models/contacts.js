@@ -13,9 +13,11 @@ const contactSchema = new mongoose.Schema({
         default:"no data",
     },
     number:{
-        type:Number,
+        type:String,
         required:true,
-        default:0,
+        min:10,
+        max:13,
+        default:"no data",
     },
     message:{
         type:String,

@@ -1,23 +1,23 @@
 const mongoose = require("mongoose");
 
-const center = new mongoose.Schema({
+const contactSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
         default:"no data",
     },
-    about:{
+    email:{
         
         type:String,
         required:true,
         default:"no data",
     },
-    work:{
-        type:String,
+    number:{
+        type:Number,
         required:true,
-        default:"no data",
+        default:0,
     },
-    initiatives:{
+    message:{
         type:String,
         required:true,
         default:"no data",
@@ -25,4 +25,4 @@ const center = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model("Center",center);
+module.exports = mongoose.model("ContactUs",contactSchema);

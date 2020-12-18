@@ -25,3 +25,9 @@ exports.find_center = (req,res)=>{
     .then((center) => res.json(center))
     .catch((err) => res.json(err));
 }
+
+exports.get_center = (req,res)=>{
+    Center.find()
+    .then((center) => res.json(center))
+    .catch((err) => res.json(err));
+}

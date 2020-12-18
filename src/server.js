@@ -30,12 +30,16 @@ app.use((req, res, next) => {
 const paymentRoute = require('./routes/payments')
 const centerRoute = require('./routes/centers')
 const contactUs = require('./routes/contacts')
+const newsLetter = require('./routes/newsletter')
+
 
 
 //middleware for routes
 app.use('/centers', centerRoute)
 app.use('/payments', paymentRoute)
 app.use('/contacts',contactUs)
+app.use('/newsletter',newsLetter)
+
 
 
 

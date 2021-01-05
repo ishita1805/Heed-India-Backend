@@ -53,5 +53,3 @@ exports.add_payment = async (req, res, next) => {
     }
    
 }
-
-

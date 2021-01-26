@@ -4,7 +4,7 @@ const blogsController = require('../controllers/blogs')
 
 
 router.post('/addblog', blogsController.add_blog)
-router.post('/getblog', blogsController.get_blog)
+router.get('/getblog', blogsController.get_blog)
 router.post('/checklikes', blogsController.check_likes)
 
 

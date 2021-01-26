@@ -28,6 +28,7 @@ app.use((req, res, next) => {
 
 // Routes
 const paymentRoute = require('./routes/payments')
+const blogRoute = require('./routes/blogs')
 const centerRoute = require('./routes/centers')
 const contactUs = require('./routes/contacts')
 const newsLetter = require('./routes/newsletter')

@@ -3,7 +3,7 @@ const {Blog,UserIp} = require('../models/blog')
 
 
 exports.add_blog = (req,res)=>{
-    const thumbnail = req.body.thumbnail;
+    /*const thumbnail = req.body.thumbnail;
     const banner = req.body.banner;
     const heading = req.body.title;
     const subheading = req.body.subtitle;
@@ -12,6 +12,7 @@ exports.add_blog = (req,res)=>{
     const instalink = req.body.link;
     const date = req.body.date;
 
+    
 
     const newblog = new Blog({
         thumbnail,
@@ -26,7 +27,8 @@ exports.add_blog = (req,res)=>{
 
     newblog.save()
     .then(blog=> res.json(blog))
-    .catch(()=> res.status(400).json("error"));
+    .catch(()=> res.status(400).json("error"));*/
+    console.log(req.body.formData)
 }
 
 exports.get_blog = (req,res)=>{

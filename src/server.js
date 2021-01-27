@@ -40,6 +40,7 @@ app.use('/centers', centerRoute)
 app.use('/payments', paymentRoute)
 app.use('/contacts',contactUs)
 app.use('/newsletter',newsLetter)
+app.use('/blogs',blogRoute)
 
 
 

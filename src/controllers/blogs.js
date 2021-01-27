@@ -3,33 +3,26 @@ const {Blog,UserIp} = require('../models/blog')
 
 
 exports.add_blog = (req,res)=>{
-    /*const thumbnail = req.body.thumbnail;
-    const banner = req.body.banner;
-    const heading = req.body.title;
-    const subheading = req.body.subtitle;
-    const content = req.body.content;
-    const author = req.body.author;
-    const instalink = req.body.link;
-    const date = req.body.date;
+    // data object with text data
+    let data = req.body
+    console.log(data);
+    // upload files to cloudinary
+    const file1 = req.files.thumbnail;
+    const file2 = req.files.banner;
 
+    // to do in then call
     
-
-    const newblog = new Blog({
-        thumbnail,
-        banner,
-        heading,
-        subheading,
-        content,
-        author,
-        instalink,
-        date,
-    });
-
+    //1. update urls in data object
+    data.thumbnail = 'cloudinary link 1';
+    data.banner ='cloudinary link 2';
+    //2. save data object to new Blog instance
+    const newblog = new Blog(data);
+    res.status(200).json('success');
     newblog.save()
     .then(blog=> res.json(blog))
-    .catch(()=> res.status(400).json("error"));*/
-    console.log(req.body.formData)
+    .catch(()=> res.status(400).json("error"));
 }
+
 
 exports.get_blog = (req,res)=>{
     Blog.find()

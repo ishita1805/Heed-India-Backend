@@ -6,13 +6,13 @@
   "scripts": {
     "start": "node src/server.js",
     "devStart": "nodemon src/server.js"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "mongoose": "^5.10.11",
     "morgan": "^1.10.0",
     "razorpay": "^2.0.6",

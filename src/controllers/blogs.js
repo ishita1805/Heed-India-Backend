@@ -5,11 +5,11 @@ const {Blog,UserIp} = require('../models/blog')
 exports.add_blog = (req,res)=>{
     const thumbnail = req.body.thumbnail;
     const banner = req.body.banner;
-    const heading = req.body.heading;
-    const subheading = req.body.subheading;
+    const heading = req.body.title;
+    const subheading = req.body.subtitle;
     const content = req.body.content;
     const author = req.body.author;
-    const instalink = req.body.instalink;
+    const instalink = req.body.link;
     const date = req.body.date;
 
 

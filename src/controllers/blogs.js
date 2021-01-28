@@ -1,26 +1,39 @@
 const mongoose = require("mongoose");
 const {Blog,UserIp} = require('../models/blog')
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({ 
+    cloud_name: 'dtmhqs3e0', 
+    api_key: '323497653845991', 
+    api_secret: 'WDDW2x_CkmXKZ3AyWOEPoA5cfHg' 
+  });
 
-
+  
 exports.add_blog = (req,res)=>{
-    // data object with text data
+
     let data = req.body
     console.log(data);
-    // upload files to cloudinary
+
     const file1 = req.files.thumbnail;
     const file2 = req.files.banner;
-
-    // to do in then call
+    let link1 ;
+    let link2 ;
     
-    //1. update urls in data object
-    data.thumbnail = 'cloudinary link 1';
-    data.banner ='cloudinary link 2';
-    //2. save data object to new Blog instance
-    const newblog = new Blog(data);
-    res.status(200).json('success');
-    newblog.save()
-    .then(blog=> res.json(blog))
-    .catch(()=> res.status(400).json("error"));
+    cloudinary.uploader.upload(file1.tempFilePath, function(error, result) {
+        link1 = result.url;       
+   
+        cloudinary.uploader.upload(file2.tempFilePath, function(error, result) {
+            link2 = result.url;
+
+            data.thumbnail = link1
+            data.banner = link2
+            console.log(data);
+            const newblog = new Blog(data);
+            newblog.save()
+            .then(blog=> res.json(blog))
+            .catch(()=> res.status(400).json("error"));
+        });
+    });
+    
 }
 
 

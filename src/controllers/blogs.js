@@ -39,23 +39,33 @@ exports.add_blog = (req,res)=>{
 
 exports.get_blog = (req,res)=>{
     Blog.find()
-    .then((center) => res.json(center))
+    .then((blog) => res.json(blog))
     .catch((err) => res.json(err));
 }
 
-exports.check_likes=(req,res)=>{
-    UserIp.findByIdAndDelete(req.body.userIp)
-    .then(() => res.json('Ip deleted.'))
-    .catch(()=>{
-        const userIp = req.body.userIp;
+exports.get_blogid = (req,res)=>{
+    Blog.findById(req.params.id)
+    .then((blog) => res.json(blog))
+    .catch((err) => res.json(err));
+}
 
-        const likes = new UserIp({
-            userIp,
-        });
-
-        likes.save()
-        .then(ip =>res.json('ip added: '+ip))
-        .catch(()=>res.satus(400).json("error"))}
-    );
+exports.check_likes= async (req,res)=>{
+    console.log(req.body.userIp)
+    const user = await UserIp.findOne({userIp:req.body.userIp})
+    
+    if(user)
+    {
+        UserIp.findByIdAndDelete(user._id)
+        .then(() => res.json('UserIp deleted.'))
+        .catch(err => res.status(400).json('Error: ' + err));
+    }
+    else
+    {
+        const userIp = req.body.userIp
+        const IP = new UserIp({userIp});
+        IP.save()
+        .then((ip)=>res.json(ip))
+        .catch((err)=>res.status(400).json(err));
+    }
 }
 

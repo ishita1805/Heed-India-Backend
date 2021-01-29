@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 
 const userip = new mongoose.Schema({
-    useIp:{
+    userIp:{
         type:String,
         required:true,
     },

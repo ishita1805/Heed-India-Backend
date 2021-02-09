@@ -36,19 +36,21 @@ exports.add_blog = (req,res)=>{
     
 }
 
-
+//GET ALL BLOG
 exports.get_blog = (req,res)=>{
     Blog.find()
     .then((blog) => res.json(blog))
     .catch((err) => res.json(err));
 }
 
+//GET BLOG BY ID
 exports.get_blogid = (req,res)=>{
     Blog.findById(req.params.id)
     .then((blog) => res.json(blog))
     .catch((err) => res.json(err));
 }
 
+//SET LIKE/DISLIKE
 exports.check_likes= async (req,res)=>{
     console.log(req.body.userIp)
     const user = await UserIp.findOne({userIp:req.body.userIp})
@@ -61,11 +63,26 @@ exports.check_likes= async (req,res)=>{
     }
     else
     {
-        const userIp = req.body.userIp
-        const IP = new UserIp({userIp});
+        const liked = req.body.userIp
+        const IP = new UserIp({userIp:liked});
         IP.save()
         .then((ip)=>res.json(ip))
         .catch((err)=>res.status(400).json(err));
+    }
+}
+
+//CHECK FOR INITIAL LIKE/DISLIKE
+exports.get_likes= async (req,res)=>{
+    console.log(req.body.userIp)
+    const user = await UserIp.findOne({userIp:req.body.userIp})
+    console.log(user)
+    if(user)
+    {
+        res.json("true")
+    }
+    else
+    {
+        res.json("false")
     }
 }
 

@@ -1,16 +1,7 @@
 const mongoose = require("mongoose");
 
-
-
-const userip = new mongoose.Schema({
-    userIp:{
-        type:String,
-        required:true,
-    },
-})
-
-
 const blog = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     thumbnail:{
         type:String,
         required:true,
@@ -52,15 +43,12 @@ const blog = new mongoose.Schema({
         required:true,
         default:"no data",
     },
-    like:[{
+    likes:[
+        {
          type: mongoose.Schema.Types.ObjectId,
          ref: 'UserIP',
-         default: "no data"
-        }]
-
+        }
+    ]
 });
-const Blog =  mongoose.model("Blog",blog);
-const UserIp = mongoose.model('UserIP', userip);
 
-module.exports.Blog =Blog;
-module.exports.UserIp = UserIp ;
+module.exports = mongoose.model("Blog",blog);

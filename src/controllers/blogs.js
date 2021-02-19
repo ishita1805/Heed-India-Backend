@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 const Blog = require('../models/blog');
 const UserIp = require('../models/like');
+const fs = require('fs');
+const path = require('path')
+const pathToDir = path.join(__dirname, '../../tmp')
+const directory = '../../tmp';
 const cloudinary = require('cloudinary').v2;
+
 cloudinary.config({ 
     cloud_name: 'dtmhqs3e0', 
     api_key: '323497653845991', 
@@ -29,7 +34,11 @@ exports.add_blog = (req,res)=>{
             const newblog = new Blog(data);
             newblog.save()
             .then(blog=> {
-                res.json(blog);
+                fs.rmdir(pathToDir,{ recursive: true }, (err) => {
+                    if (err) throw err;
+                    console.log('successfully deleted tmp folder');
+                });
+                res.status(200).json(blog);
                 console.log(blog);
             })
             .catch((error)=>{ 

@@ -13,27 +13,27 @@ exports.add_blog = (req,res)=>{
 
     let data = req.body
     console.log(data);
-
-    const file1 = req.files.thumbnail;
-    const file2 = req.files.banner;
-    let link1 ;
-    let link2 ;
+    res.status(200).json({message:"reaching here"})
+    // const file1 = req.files.thumbnail;
+    // const file2 = req.files.banner;
+    // let link1 ;
+    // let link2 ;
     
-    cloudinary.uploader.upload(file1.tempFilePath, function(error, result) {
-        link1 = result.url;       
+    // cloudinary.uploader.upload(file1.tempFilePath, function(error, result) {
+    //     link1 = result.url;       
    
-        cloudinary.uploader.upload(file2.tempFilePath, function(error, result) {
-            link2 = result.url;
+    //     cloudinary.uploader.upload(file2.tempFilePath, function(error, result) {
+    //         link2 = result.url;
 
-            data.thumbnail = link1
-            data.banner = link2
-            console.log(data);
-            const newblog = new Blog(data);
-            newblog.save()
-            .then(blog=> res.json(blog))
-            .catch(()=> res.status(400).json("error"));
-        });
-    });
+    //         data.thumbnail = link1
+    //         data.banner = link2
+    //         console.log(data);
+    //         const newblog = new Blog(data);
+    //         newblog.save()
+    //         .then(blog=> res.json(blog))
+    //         .catch(()=> res.status(400).json("error"));
+    //     });
+    // });
     
 }
 

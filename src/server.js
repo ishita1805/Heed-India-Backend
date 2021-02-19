@@ -4,6 +4,7 @@ const app = express()
 const port =  process.env.PORT || 3001
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
+const cors = require('cors')
 const mongoose = require('mongoose')
 require('./db/mongoose.js')
 mongoose.set('useCreateIndex',true);
@@ -15,19 +16,20 @@ app.use(bodyParser.json());
 app.use(fileUpload({
   useTempFiles:true
 }));
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://heed-india.herokuapp.com/");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Set-Cookie,Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Credentials", true);
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "PUT,POST,PATCH,DELETE,GET");
-    return res.status(200).json({});
-  }
-  next();
-});
+app.use(cors())
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "https://heed-india.herokuapp.com");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Set-Cookie,Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.header("Access-Control-Allow-Credentials", true);
+//   if (req.method === "OPTIONS") {
+//     res.header("Access-Control-Allow-Methods", "PUT,POST,PATCH,DELETE,GET");
+//     return res.status(200).json({});
+//   }
+//   next();
+// });
 
 
 // Routes

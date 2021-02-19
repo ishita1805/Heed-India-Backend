@@ -10,10 +10,9 @@ cloudinary.config({
 
   
 exports.add_blog = (req,res)=>{
-
     let data = req.body
     console.log(data);
-    res.status(200).json({message:"reaching here"})
+    res.status(200).json({message:data})
     // const file1 = req.files.thumbnail;
     // const file2 = req.files.banner;
     // let link1 ;

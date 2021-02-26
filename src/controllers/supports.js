@@ -5,11 +5,13 @@ exports.post_support = (req,res)=>{
     const name = req.body.name;
     const email = req.body.email;
     const number = req.body.number;
+    const option = req.body.val;
 
     const newSupport = new Support({
         name,
         email,
-        number
+        number,
+        option,
     })
 
     newSupport.save()

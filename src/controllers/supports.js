@@ -6,14 +6,13 @@ exports.post_support = (req,res)=>{
     const email = req.body.email;
     const number = req.body.number;
     const option = req.body.val;
-    console.log(option)
     const newSupport = new Support({
         name,
         email,
         number,
         option,
     });
-    console.log(newSupport)
+
     newSupport.save()
     .then(data=>res.json(data))
     .catch((err)=>res.json(err))

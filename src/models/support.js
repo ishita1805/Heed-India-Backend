@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const supSchema = new mongoose.Schema({
     option:{
-        tyep:String,
+        type:String,
     },
     name:{
         type:String,

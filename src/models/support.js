@@ -18,4 +18,4 @@ const supportSchema = new mongoose.Schema({
     },
 })
 
-module.exports = mongoose.model('Supports', supportSchema)
+module.exports = mongoose.model('UserSupport', supportSchema)

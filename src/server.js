@@ -38,9 +38,6 @@ app.use('/blogs',blogRoute)
 app.use('/supports',supportRoute)
 
 
-
-
-
 app.listen(port,() => {
     console.log("Listening on port "+ port);
 })

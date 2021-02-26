@@ -36,6 +36,7 @@ const blogRoute = require('./routes/blogs')
 const centerRoute = require('./routes/centers')
 const contactUs = require('./routes/contacts')
 const newsLetter = require('./routes/newsletter')
+const supportRoute = require('./routes/support')
 
 
 
@@ -45,6 +46,7 @@ app.use('/payments', paymentRoute)
 app.use('/contacts',contactUs)
 app.use('/newsletter',newsLetter)
 app.use('/blogs',blogRoute)
+app.use('/supports/',supportRoute)
 
 
 

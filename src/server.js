@@ -35,7 +35,7 @@ app.use('/payments', paymentRoute)
 app.use('/contacts',contactUs)
 app.use('/newsletter',newsLetter)
 app.use('/blogs',blogRoute)
-app.use('/supports/',supportRoute)
+app.use('/supports',supportRoute)
 
 
 

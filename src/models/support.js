@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
-const supportSchema = new mongoose.Schema({
+const supSchema = new mongoose.Schema({
+    option:{
+        tyep:String,
+    },
     name:{
         type:String,
     
@@ -13,10 +16,7 @@ const supportSchema = new mongoose.Schema({
         type:Number,
         
     },
-    option:{
-        tyep:String,
-        default:"hello"
-    },
+    
 })
 
-module.exports = mongoose.model('UserSupport', supportSchema)
+module.exports = mongoose.model('UserSupport', supSchema)

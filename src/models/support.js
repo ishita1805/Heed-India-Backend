@@ -15,6 +15,7 @@ const supportSchema = new mongoose.Schema({
     },
     option:{
         tyep:String,
+        default:"hello"
     },
 })
 

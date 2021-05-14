@@ -105,3 +105,13 @@ exports.set_like_status = (req,res)=>{
     .catch((err)=>res.status(400).json(err))
 }
 
+exports.del_blog = (req, res, next) => {
+// /res.send('found');
+    Blog.deleteOne({ _id: req.body.id })
+    .then((resp) => {
+        res.status(200).json({resp})
+    })
+    .catch((e) => {
+        res.status(500).json({e})
+    })
+}

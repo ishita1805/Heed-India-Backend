@@ -26,6 +26,7 @@ const centerRoute = require('./routes/centers')
 const contactUs = require('./routes/contacts')
 const newsLetter = require('./routes/newsletter')
 const supportRoute = require('./routes/support')
+const pageRoute = require('./routes/pages')
 
 
 
@@ -36,7 +37,7 @@ app.use('/contacts',contactUs)
 app.use('/newsletter',newsLetter)
 app.use('/blogs',blogRoute)
 app.use('/supports',supportRoute)
-
+app.use('/page',pageRoute)
 
 app.listen(port,() => {
     console.log("Listening on port "+ port);

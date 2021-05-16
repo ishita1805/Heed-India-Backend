@@ -39,6 +39,10 @@ app.use('/blogs',blogRoute)
 app.use('/supports',supportRoute)
 app.use('/page',pageRoute)
 
+app.get('/', (req, res) => {
+  req.send('ok');
+})
+
 app.listen(port,() => {
     console.log("Listening on port "+ port);
 })

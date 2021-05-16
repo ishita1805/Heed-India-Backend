@@ -40,7 +40,7 @@ app.use('/supports',supportRoute)
 app.use('/page',pageRoute)
 
 app.get('/', (req, res) => {
-  req.send('ok');
+  res.send('ok');
 })
 
 app.listen(port,() => {

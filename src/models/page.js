@@ -38,6 +38,12 @@ const pageSchema = new mongoose.Schema({
       ref: "Stat",
     },
   ],
+  donors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Donor",
+    },
+  ],
 
 });
 

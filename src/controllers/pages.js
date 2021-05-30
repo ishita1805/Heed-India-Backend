@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Page = require('../models/page');
+const Alert = require('../models/alert');
 const fs = require('fs');
 const path = require('path')
 const pathToDir = path.join(__dirname, '../../tmp')
@@ -29,6 +30,7 @@ exports.getPage = (req, res) => {
     Page.findById(req.body.id)
     .populate("stats")
     .populate("cards")
+    .populate("donors")
     .then((resp) => {
         res.status(200).json({resp});
     })
@@ -78,4 +80,38 @@ exports.updatePage = (req, res) => {
             res.status(500).json({e})
         })
     }  
+}
+
+
+exports.createAlert = (req, res) => {
+    let data = req.body;
+    data._id = mongoose.Types.ObjectId();
+    const alert = new Alert(data);
+    alert.save()
+    .then((resp) => {
+        res.status(200).json({ resp })
+    })
+    .catch((e) => {
+        res.status(500).json({ e })
+    })
+}
+
+exports.deleteAlert = (req, res) => {
+    Alert.deleteOne({ _id: req.body.id })
+    .then((resp) => {
+        res.status(200).json({ resp })
+    })
+    .catch((e) => {
+        res.status(500).json({ e })
+    })
+}
+
+exports.getAlert = (req, res) => {
+    Alert.findOne()
+    .then((resp) => {
+        res.status(200).json({ resp });
+    })
+    .catch((e) => {
+        res.status(500).json({ e });
+    })
 }

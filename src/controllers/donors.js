@@ -14,7 +14,7 @@ cloudinary.config({
 
 exports.createDonor = (req, res) => {
     let data = {
-        _id = mongoose.Types.ObjectId(),
+        _id: mongoose.Types.ObjectId()
     }
     let file = req.files.file;
     cloudinary.uploader.upload(file.tempFilePath)
@@ -47,7 +47,7 @@ exports.createDonor = (req, res) => {
 
 exports.updateDonor = (req, res) => {
     let data = {
-        _id = mongoose.Types.ObjectId(),
+        _id: mongoose.Types.ObjectId(),
     }
     let file = req.files.file;
     cloudinary.uploader.upload(file.tempFilePath)

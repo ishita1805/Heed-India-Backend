@@ -18,5 +18,8 @@ router.post('/deleteCard', cardsController.deleteCard)
 router.post('/createDonor', donorController.createDonor)
 router.post('/updateDonor', donorController.updateDonor)
 router.post('/deleteDonor', donorController.deleteDonor)
+router.post('/createAlert', pagesController.createAlert)
+router.post('/deleteAlert', pagesController.deleteAlert)
+router.get('/getAlert', pagesController.getAlert)
 
 module.exports = router

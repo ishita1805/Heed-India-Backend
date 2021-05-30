@@ -5,14 +5,20 @@ const port =  process.env.PORT || 3001
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 const cors = require('cors')
+const compression = require('compression')
 const mongoose = require('mongoose')
 require('./db/mongoose.js')
+
 mongoose.set('useCreateIndex',true);
 
 // middleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
+app.use(compression({
+  level:6,
+  threshold: 50*1000,
+}))
 app.use(fileUpload({
   useTempFiles:true
 }));

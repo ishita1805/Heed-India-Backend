@@ -14,15 +14,31 @@ const paymentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  pan: {
+    type: String,
+    required: true
+  },
+  address: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  contact: {
+    type: String,
+    required: true
+  },
   receipt: {
     type: String,
     required: true
   },
-  createdAt: {
+  status:{
     type: String,
     required: true
   },
-  status:{
+  createdAt: {
     type: String,
     required: true
   },

@@ -10,23 +10,26 @@ const instance = new Razorpay({
 });
 
 
-exports.add_payment = async (req, res, next) => {
+exports.make_payment = async (req, res, next) => {
     try{
-        console.log(req.body.amount)
+        console.log(req.body.data)
        const options= {
         payment_capture: 1,
-        amount : req.body.amount,
+        amount : req.body.data.amt,
         currency : 'INR',
         receipt : shortid.generate()
        }
         instance.orders.create(options)
         .then((resp)=>{
-            
             const pay = new Payment({
                 _id:mongoose.Types.ObjectId(),
                 offerId:resp.id,
                 amount: resp.amount/100,
                 currency: resp.currency,
+                pan:req.body.data.pan,
+                address: req.body.data.address,
+                name: req.body.data.name,
+                contact: req.body.data.contact,
                 receipt: resp.receipt,
                 status: resp.status,
                 createdAt: resp.created_at
@@ -34,10 +37,7 @@ exports.add_payment = async (req, res, next) => {
 
             pay.save()
             .then((response)=>{
-                res.json({
-                    message:'request successful',
-                    data: resp
-                });
+                res.json({ response });
             })
             .catch(()=>{
              res.json({
@@ -52,4 +52,9 @@ exports.add_payment = async (req, res, next) => {
         res.json({message:'something went wrong'});
     }
    
+}
+
+
+exports.verification = (req, res) => {
+    
 }

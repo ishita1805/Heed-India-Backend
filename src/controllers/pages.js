@@ -109,6 +109,7 @@ exports.deleteAlert = (req, res) => {
 exports.getAlert = (req, res) => {
     Alert.findOne()
     .then((resp) => {
+        console.log(resp);
         res.status(200).json({ resp });
     })
     .catch((e) => {

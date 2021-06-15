@@ -1,23 +1,23 @@
-const { json } = require('express')
 const Razorpay = require('razorpay')
 const shortid = require('shortid')
 const mongoose = require("mongoose");
 const Payment = require('../models/payment')
+const crypto = require('crypto');
+const e = require('express');
 
 const instance = new Razorpay({
-    key_id: 'rzp_test_PsxGKItWtb7jwL',
-    key_secret: 'uvzcqRHvKhxjFVPQ0hgZupvX',
+    key_id: process.env.RAZORPAY_KEY,
+    key_secret: process.env.REAZORPAY_SECRET,
 });
 
 
-exports.make_payment = async (req, res, next) => {
-    try{
-        console.log(req.body.data)
+exports.make_payment = (req, res, next) => {
+
        const options= {
-        payment_capture: 1,
         amount : req.body.data.amt,
         currency : 'INR',
-        receipt : shortid.generate()
+        receipt : shortid.generate(),
+        payment_capture: 1,
        }
         instance.orders.create(options)
         .then((resp)=>{
@@ -32,29 +32,60 @@ exports.make_payment = async (req, res, next) => {
                 contact: req.body.data.contact,
                 receipt: resp.receipt,
                 status: resp.status,
-                createdAt: resp.created_at
+                createdAt: new Date().toDateString()
             })
-
             pay.save()
             .then((response)=>{
-                res.json({ response });
+                res.json({ 
+                    response,
+                    key:  process.env.RAZORPAY_KEY
+                 });
             })
             .catch(()=>{
              res.json({
                  error:"mongoDB error"
                 });
             })
-
         })
-        
-    }
-    catch(e){
-        res.json({message:'something went wrong'});
-    }
-   
+        .catch(()=>{
+            res.json({
+                error:"razorpay error"
+            });
+        })
 }
 
 
 exports.verification = (req, res) => {
-    
+    const SECRET = process.env.VERIFICATION_SECRET
+    const shasum = crypto.createHmac('sha256', SECRET)
+    shasum.update(JSON.stringify(req.body))
+    const digest = shasum.digest('hex')
+    console.log(digest === req.headers['x-razorpay-signature'])
+    if(digest === req.headers['x-razorpay-signature']) {
+        // change status and
+        Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, { status: req.body.payload.payment.entity.status })
+        .then((data) => {
+            console.log('verification triggered')
+            return res.status(200).json({'status':'ok'})  
+        })
+        .catch(() => {
+            res.status(500).json({
+                error:"mongodb error"
+            });
+        })
+    } else {
+        res.status(500).json({'status':'ok'})  
+    }
+}
+
+exports.payments = (req, res) => {
+   Payment.find({ status:'captured' })
+   .then((resp) => {
+       res.status(200).json(resp)
+   })
+   .catch((e) => {
+    res.status(200).json({
+        message:'mongodb error'
+    })
+   })
 }

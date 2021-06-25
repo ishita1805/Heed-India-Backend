@@ -2,13 +2,12 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const email = (data) => {
-  console.log(data);
   const msg = {
-    to: 'milan.mandal2019@vitstudent.ac.in',
+    to: `${data.email}`,
     from: 'milanmandal2001@gmail.com',
     dynamic_template_data: {
       "name": `${data.name}`,
-      "amt" :`${data.amt}`,
+      "amt" :`${data.amount}`,
     },
     template_id:'d-7590aa394d6140b3aa5f845e76c8963e'
   };

@@ -32,7 +32,7 @@ exports.make_payment = (req, res, next) => {
                 city: req.body.data.city,
                 pincode:req.body.data.pincode,
                 remarks: req.body.data.remarks,
-                name: req.body.data.city,
+                name: req.body.data.name,
                 contact: req.body.data.contact,
                 receipt: req.body.data.remarks,
                 email: req.body.data.email,

@@ -2,7 +2,7 @@ const Razorpay = require('razorpay')
 const shortid = require('shortid')
 const mongoose = require("mongoose");
 const Payment = require('../models/payment')
-const {email} = require('./email')
+const email = require('./email')
 const crypto = require('crypto');
 const e = require('express');
 
@@ -13,7 +13,6 @@ const instance = new Razorpay({
 
 
 exports.make_payment = (req, res, next) => {
-    console.log("hello");
        const options= {
         amount : req.body.data.amt,
         currency : 'INR',
@@ -28,15 +27,21 @@ exports.make_payment = (req, res, next) => {
                 amount: resp.amount/100,
                 currency: resp.currency,
                 pan:req.body.data.pan,
-                address: req.body.data.address,
-                name: req.body.data.name,
+                address: req.body.data.state,
+                state: req.body.data.state,
+                city: req.body.data.city,
+                pincode:req.body.data.pincode,
+                remarks: req.body.data.remarks,
+                name: req.body.data.city,
                 contact: req.body.data.contact,
-                receipt: resp.receipt,
+                receipt: req.body.data.remarks,
+                email: req.body.data.email,
                 status: resp.status,
                 createdAt: new Date().toDateString()
             })
             pay.save()
             .then((response)=>{
+                email(response)
                 res.json({ 
                     response,
                     key:  process.env.RAZORPAY_KEY
@@ -78,7 +83,6 @@ exports.verification = (req, res) => {
             Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, { status: req.body.payload.payment.entity.status },{receipt: receipt})
             .then((data) => {
                 console.log('verification triggered')
-                //email(res.data)
                 return res.status(200).json({'status':'ok'})  
             })
             .catch(() => {

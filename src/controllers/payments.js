@@ -2,6 +2,7 @@ const Razorpay = require('razorpay')
 const shortid = require('shortid')
 const mongoose = require("mongoose");
 const Payment = require('../models/payment')
+const {email} = require('./email')
 const crypto = require('crypto');
 const e = require('express');
 
@@ -63,15 +64,28 @@ exports.verification = (req, res) => {
     console.log(digest === req.headers['x-razorpay-signature'])
     if(digest === req.headers['x-razorpay-signature']) {
         // change status and
-        Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, { status: req.body.payload.payment.entity.status })
-        .then((data) => {
-            console.log('verification triggered')
-            return res.status(200).json({'status':'ok'})  
-        })
-        .catch(() => {
-            res.status(500).json({
-                error:"mongodb error"
-            });
+        Payment.find().sort({"receipt":-1}).limit(1)
+        .then((res)=>{
+            console.log(res);
+            var receipt = 0;
+            if(res.length!=0)
+            {
+                receipt = res.data.receipt +1
+            }
+            else{
+                receipt = 0;
+            }
+            Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, { status: req.body.payload.payment.entity.status },{receipt: receipt})
+            .then((data) => {
+                console.log('verification triggered')
+                email(res.data)
+                return res.status(200).json({'status':'ok'})  
+            })
+            .catch(() => {
+                res.status(500).json({
+                    error:"mongodb error"
+                });
+            })
         })
     } else {
         res.status(500).json({'status':'ok'})  

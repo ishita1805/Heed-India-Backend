@@ -22,6 +22,22 @@ const paymentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  state: {
+    type: String,
+    required: true
+  },
+  city: {
+    type: String,
+    required: true
+  },
+  pincode: {
+    type: Number,
+    required: true
+  },
+  remarks: {
+    type: String,
+    required: true
+  },
   name: {
     type: String,
     required: true

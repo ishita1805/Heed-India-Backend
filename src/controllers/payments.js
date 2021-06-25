@@ -13,7 +13,7 @@ const instance = new Razorpay({
 
 
 exports.make_payment = (req, res, next) => {
-
+    console.log("hello");
        const options= {
         amount : req.body.data.amt,
         currency : 'INR',
@@ -64,11 +64,11 @@ exports.verification = (req, res) => {
     console.log(digest === req.headers['x-razorpay-signature'])
     if(digest === req.headers['x-razorpay-signature']) {
         // change status and
-        Payment.find().sort({"receipt":-1}).limit(1)
+        Payment.find().sort({"receipt":-1}).limit(2)
         .then((res)=>{
             console.log(res);
             var receipt = 0;
-            if(res.length!=0)
+            if(res.length>1)
             {
                 receipt = res.data.receipt +1
             }
@@ -78,7 +78,7 @@ exports.verification = (req, res) => {
             Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, { status: req.body.payload.payment.entity.status },{receipt: receipt})
             .then((data) => {
                 console.log('verification triggered')
-                email(res.data)
+                //email(res.data)
                 return res.status(200).json({'status':'ok'})  
             })
             .catch(() => {
@@ -93,6 +93,7 @@ exports.verification = (req, res) => {
 }
 
 exports.payments = (req, res) => {
+    console.log("hello");
    Payment.find({ status:'captured' })
    .then((resp) => {
        res.status(200).json(resp)

@@ -27,7 +27,7 @@ exports.make_payment = (req, res, next) => {
                 amount: resp.amount/100,
                 currency: resp.currency,
                 pan:req.body.data.pan,
-                address: req.body.data.state,
+                address: req.body.data.address,
                 state: req.body.data.state,
                 city: req.body.data.city,
                 pincode:req.body.data.pincode,
@@ -101,9 +101,22 @@ exports.verification = (req, res) => {
 }
 
 exports.payments = (req, res) => {
-    console.log("hello");
    Payment.find({ status:'captured' })
    .then((resp) => {
+       res.status(200).json(resp)
+   })
+   .catch((e) => {
+    res.status(200).json({
+        message:'mongodb error'
+    })
+   })
+}
+
+exports.payment = (req, res) => {
+    console.log(req.query)
+   Payment.findOne({ receipt: req.query.receipt })
+   .then((resp) => {
+       console.log(resp)
        res.status(200).json(resp)
    })
    .catch((e) => {

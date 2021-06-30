@@ -5,6 +5,7 @@ const Payment = require('../models/payment')
 const email = require('./email')
 const crypto = require('crypto');
 const e = require('express');
+const { COPYFILE_FICLONE } = require('constants');
 
 const instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_DEV,
@@ -72,6 +73,7 @@ exports.verification = (req, res) => {
             var receipt = 0;
             if(resp.length>1)
             {
+                
                 receipt = parseInt(resp[1].receipt) +1
             }
             else{
@@ -79,6 +81,7 @@ exports.verification = (req, res) => {
             }
             Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, { status: req.body.payload.payment.entity.status, receipt })
             .then(() => {
+                //console.log(resp[0]);
                 email(resp[0])
                 return res.status(200).json({
                     'status':'ok'
@@ -101,7 +104,7 @@ exports.verification = (req, res) => {
 }
 
 exports.payments = (req, res) => {
-    console.log("hello");
+    //console.log("hello");
    Payment.find({ status:'captured' })
    .then((resp) => {
        res.status(200).json(resp)

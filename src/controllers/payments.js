@@ -7,8 +7,8 @@ const crypto = require('crypto');
 const e = require('express');
 
 const instance = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY,
-    key_secret: process.env.REAZORPAY_SECRET,
+    key_id: process.env.RAZORPAY_KEY_DEV,
+    key_secret: process.env.REAZORPAY_SECRET_DEV,
 });
 
 
@@ -34,17 +34,16 @@ exports.make_payment = (req, res, next) => {
                 remarks: req.body.data.remarks,
                 name: req.body.data.name,
                 contact: req.body.data.contact,
-                receipt: req.body.data.remarks,
+                receipt: 0,
                 email: req.body.data.email,
                 status: resp.status,
                 createdAt: new Date().toDateString()
             })
             pay.save()
             .then((response)=>{
-                email(response)
                 res.json({ 
                     response,
-                    key:  process.env.RAZORPAY_KEY
+                    key:  process.env.RAZORPAY_KEY_DEV
                  });
             })
             .catch(()=>{
@@ -68,31 +67,36 @@ exports.verification = (req, res) => {
     const digest = shasum.digest('hex')
     console.log(digest === req.headers['x-razorpay-signature'])
     if(digest === req.headers['x-razorpay-signature']) {
-        // change status and
-        Payment.find().sort({"receipt":-1}).limit(2)
-        .then((res)=>{
-            console.log(res);
+        Payment.find().sort({'_id':-1}).limit(2)
+        .then((resp)=>{
             var receipt = 0;
-            if(res.length>1)
+            if(resp.length>1)
             {
-                receipt = res.data.receipt +1
+                receipt = parseInt(resp[1].receipt) +1
             }
             else{
                 receipt = 0;
             }
-            Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, { status: req.body.payload.payment.entity.status },{receipt: receipt})
-            .then((data) => {
-                console.log('verification triggered')
-                return res.status(200).json({'status':'ok'})  
+            Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, { status: req.body.payload.payment.entity.status, receipt })
+            .then(() => {
+                email(resp[0])
+                return res.status(200).json({
+                    'status':'ok'
+                })  
             })
             .catch(() => {
-                res.status(500).json({
+                res.status(200).json({
                     error:"mongodb error"
                 });
             })
         })
+        .catch(() => {
+            res.status(200).json({
+                error:"mongodb error"
+            });
+        })
     } else {
-        res.status(500).json({'status':'ok'})  
+        res.status(200).json({'status':'ok'})  
     }
 }
 

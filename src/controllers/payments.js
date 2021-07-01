@@ -4,8 +4,7 @@ const mongoose = require("mongoose");
 const Payment = require('../models/payment')
 const email = require('./email')
 const crypto = require('crypto');
-const e = require('express');
-const { COPYFILE_FICLONE } = require('constants');
+
 
 const instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_DEV,
@@ -66,7 +65,6 @@ exports.verification = (req, res) => {
     const shasum = crypto.createHmac('sha256', SECRET)
     shasum.update(JSON.stringify(req.body))
     const digest = shasum.digest('hex')
-    console.log(digest === req.headers['x-razorpay-signature'])
     if(digest === req.headers['x-razorpay-signature']) {
         Payment.find().sort({'_id':-1}).limit(2)
         .then((resp)=>{
@@ -81,7 +79,6 @@ exports.verification = (req, res) => {
             }
             Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, { status: req.body.payload.payment.entity.status, receipt })
             .then(() => {
-                //console.log(resp[0]);
                 email(resp[0])
                 return res.status(200).json({
                     'status':'ok'
@@ -116,10 +113,10 @@ exports.payments = (req, res) => {
 }
 
 exports.payment = (req, res) => {
-    console.log(req.query)
+    // console.log(req.query)
    Payment.findOne({ receipt: req.query.receipt })
    .then((resp) => {
-       console.log(resp)
+    //    console.log(resp)
        res.status(200).json(resp)
    })
    .catch((e) => {

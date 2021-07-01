@@ -33,9 +33,9 @@ exports.make_payment = (req, res, next) => {
                 pincode:req.body.data.pincode,
                 remarks: req.body.data.remarks,
                 name: req.body.data.name,
-                contact: req.body.data.contact,
-                receipt: 0,
-                email: req.body.data.email,
+                contact: 0,
+                receipt: 301,
+                email: '-',
                 status: resp.status,
                 createdAt: new Date().toDateString()
             })
@@ -46,7 +46,8 @@ exports.make_payment = (req, res, next) => {
                     key:  process.env.RAZORPAY_KEY_DEV
                  });
             })
-            .catch(()=>{
+            .catch((e)=>{
+                console.log(e)
              res.json({
                  error:"mongoDB error"
                 });
@@ -61,42 +62,55 @@ exports.make_payment = (req, res, next) => {
 
 
 exports.verification = (req, res) => {
+    // console.log('verification')
     const SECRET = process.env.VERIFICATION_SECRET
     const shasum = crypto.createHmac('sha256', SECRET)
     shasum.update(JSON.stringify(req.body))
     const digest = shasum.digest('hex')
     if(digest === req.headers['x-razorpay-signature']) {
-        Payment.find().sort({'_id':-1}).limit(2)
+        Payment.find({status:'captured'}).sort({'_id':-1}).limit(1)
         .then((resp)=>{
-            var receipt = 0;
-            if(resp.length>1)
+            console.log(resp)
+            var receipt = 301;
+            if(resp.length >= 1)
             {
-                
-                receipt = parseInt(resp[1].receipt) +1
+                receipt = parseInt(resp[0].receipt) +1
             }
             else{
-                receipt = 0;
+                receipt = 301;
             }
-            Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, { status: req.body.payload.payment.entity.status, receipt })
+            let updateObj = {
+                status: req.body.payload.payment.entity.status,
+                email: req.body.payload.payment.entity.email,
+                contact:  req.body.payload.payment.entity.contact,
+                receipt,
+                bank:req.body.payload.payment.entity.bank,
+                wallet:req.body.payload.payment.entity.wallet,
+            }
+            req.body.payload.payment.entity.card_id?updateObj['card']=req.body.payload.payment.entity.card:null
+            console.log(updateObj)
+            Payment.updateOne({ offerId: req.body.payload.payment.entity.order_id }, updateObj)
             .then(() => {
-                email(resp[0])
+                email(req.body.payload.payment.entity.email,req.body.payload.payment.entity.amount,receipt);
                 return res.status(200).json({
                     'status':'ok'
                 })  
             })
-            .catch(() => {
+            .catch((e) => {
+                console.log(e);
                 res.status(200).json({
-                    error:"mongodb error"
+                    error:"mongodb error update"
                 });
             })
         })
-        .catch(() => {
+        .catch((e) => {
+            console.log(e);
             res.status(200).json({
-                error:"mongodb error"
+                error:"mongodb error find"
             });
         })
     } else {
-        res.status(200).json({'status':'ok'})  
+        res.status(200).json({'status':'not ok'})  
     }
 }
 

@@ -1,3 +1,4 @@
+const { Mixed } = require("mongoose");
 const mongoose = require("mongoose");
 
 const paymentSchema = new mongoose.Schema({
@@ -53,6 +54,16 @@ const paymentSchema = new mongoose.Schema({
   receipt: {
     type: String,
     required: true
+  },
+  card:{
+    type: Mixed,
+    default:{value: 'none'}
+  },
+  bank: {
+    type: String
+  },
+  wallet: {
+    type: String
   },
   status:{
     type: String,

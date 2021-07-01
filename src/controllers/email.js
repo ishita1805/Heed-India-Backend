@@ -1,21 +1,21 @@
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const email = (data) => {
+const email = (email, amt, rec) => {
   const msg = {
-    to: data.email,
-    from: 'milanmandal2001@gmail.com',
+    to: email,
+    from: 'info@heedindia.org',
     dynamic_template_data: {
-      "name": `${data.name}`,
-      "amt" :`${data.amount}`,
-      "receipt": `${data.receipt}`,
-      "date":`${data.date}`
+      "email": email,
+      "amt" : amt*0.01,
+      "receipt": rec,
+      "date":new Date().toDateString()
     },
     template_id:'d-3b733964886943f1b90ae33b37c3031a'
   };
   sgMail.send(msg)
-  .then((resp_data) => {
-    console.log(resp_data);
+  .then(() => {
+    console.log('done');
   })
   .catch((e) => {
     console.log(e);

@@ -11,7 +11,7 @@ const email = (data) => {
       "receipt": `${data.receipt}`,
       "date":`${data.date}`
     },
-    template_id:'d-f6a113209ecb4c6192092cf604fd906a'
+    template_id:'d-3b733964886943f1b90ae33b37c3031a'
   };
   sgMail.send(msg)
   .then((resp_data) => {

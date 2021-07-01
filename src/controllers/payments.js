@@ -7,8 +7,8 @@ const crypto = require('crypto');
 
 
 const instance = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_DEV,
-    key_secret: process.env.REAZORPAY_SECRET_DEV,
+    key_id: process.env.RAZORPAY_KEY,
+    key_secret: process.env.REAZORPAY_SECRET,
 });
 
 
@@ -43,7 +43,7 @@ exports.make_payment = (req, res, next) => {
             .then((response)=>{
                 res.json({ 
                     response,
-                    key:  process.env.RAZORPAY_KEY_DEV
+                    key:  process.env.RAZORPAY_KEY
                  });
             })
             .catch((e)=>{
